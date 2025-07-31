@@ -1,0 +1,67 @@
+@Composable
+fun SimpleStringList(modifier: Modifier = Modifier) {
+    // สร้าง List ของข้อความตัวอย่าง
+    val names = listOf(
+        "Alice", "Bob", "Charlie", "David", "Eve",
+        "Frank", "Grace", "Heidi", "Ivan", "Judy",
+        "Kevin", "Linda", "Mallory", "Nancy", "Oscar",
+        "Peggy", "Quentin", "Romeo", "Sybil", "Trent",
+        "Ursula", "Victor", "Walter", "Xavier", "Yvonne", "Zelda"
+    )
+
+    LazyColumn(
+        modifier = modifier.fillMaxSize(), // ให้ LazyColumn เต็มพื้นที่
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp), // Padding รอบๆ เนื้อหาทั้งหมด
+        verticalArrangement = Arrangement.spacedBy(4.dp) // ระยะห่างแนวตั้งระหว่างแต่ละ item
+    ) {
+        // วิธีที่ 1: แสดง List ของ items โดยตรง
+        items(
+            items = names,
+            key = { name -> name } // ใช้ชื่อเองเป็น key (ในกรณีนี้ชื่อไม่ซ้ำกัน และเป็น String)
+        ) { name -> // Lambda นี้จะถูกเรียกสำหรับแต่ละ "name" ใน "names"
+            ListItem(text = name)
+        }
+
+        // วิธีที่ 2: ถ้าต้องการแสดงจำนวน item ที่แน่นอน (เช่น items ที่สร้างขึ้นเอง)
+        /*
+        item { // แสดง item เดี่ยวๆ ด้านบนสุด (ถ้าต้องการ)
+            Text(
+                text = "Header",
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+        }
+
+        items(20) { index -> // แสดง 20 items โดยใช้ index
+            ListItem(text = "Item Number ${index + 1}")
+        }
+
+        item { // แสดง item เดี่ยวๆ ด้านล่างสุด (ถ้าต้องการ)
+            Text(
+                text = "Footer",
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+        }
+        */
+    }
+}
+
+// CustomView แต่ละ Item ได้ที่นี่
+@Composable
+fun ListItem(text: String, modifier: Modifier = Modifier) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.bodyLarge,
+        modifier = modifier
+            .fillMaxWidth() // ให้ Text เต็มความกว้างของ LazyColumn
+            .padding(vertical = 8.dp) // Padding ด้านบนและล่างของแต่ละ Text
+    )
+}
+
+
+Credit : 
+- https://developer.android.com
+- https://developer.android.com/develop/ui/compose/lists?hl=th
+- https://developer.android.com/reference/kotlin/androidx/compose/foundation/lazy/grid/package-summary#LazyHorizontalGrid(androidx.compose.foundation.lazy.grid.GridCells,androidx.compose.ui.Modifier,androidx.compose.foundation.lazy.grid.LazyGridState,androidx.compose.foundation.layout.PaddingValues,kotlin.Boolean,androidx.compose.foundation.layout.Arrangement.Horizontal,androidx.compose.foundation.layout.Arrangement.Vertical,androidx.compose.foundation.gestures.FlingBehavior,kotlin.Boolean,kotlin.Function1)
+- https://developer.android.com/develop/ui/compose/components

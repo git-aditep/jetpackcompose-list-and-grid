@@ -1,0 +1,69 @@
+Composable
+fun CategoryChipsRow(modifier: Modifier = Modifier) {
+    // 1. สร้าง List ของข้อมูล (เช่น ชื่อหมวดหมู่)
+    val categories = listOf(
+        "All",
+        "Electronics",
+        "Fashion",
+        "Home & Kitchen",
+        "Books",
+        "Sports & Outdoors",
+        "Beauty & Personal Care",
+        "Toys & Games",
+        "Automotive",
+        "Groceries & Gourmet Food"
+    )
+
+    // 2. ใช้ LazyRow เพื่อแสดงรายการข้อมูลในแนวนอน
+    LazyRow(
+        modifier = modifier
+            .fillMaxWidth() // ให้ LazyRow เต็มความกว้างถ้าจำเป็น (อาจไม่จำเป็นถ้าอยู่ใน Box ที่จัดกลาง)
+            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f)) // พื้นหลังจางๆ ให้เห็นขอบเขต
+            .padding(vertical = 8.dp), // Padding ด้านบนและล่างของ LazyRow ทั้งหมด
+        horizontalArrangement = Arrangement.spacedBy(8.dp), // 3. ระยะห่างระหว่างแต่ละ item ในแนวนอน
+        contentPadding = PaddingValues(horizontal = 16.dp) // 4. Padding ด้านซ้ายสุดและขวาสุดของ content ภายใน LazyRow
+    ) {
+        // 5. ใช้ `items` extension function เพื่อวนลูปและสร้าง Composable สำหรับแต่ละ item
+        items(
+            items = categories,
+            key = { category -> category } // 6. (Optional but recommended) ระบุ key ที่ไม่ซ้ำกันสำหรับแต่ละ item
+        ) { categoryName -> // `categoryName` คือแต่ละ String จาก `categories` list
+            // 7. สร้าง Composable ที่จะแสดงผลสำหรับแต่ละ item
+            CategoryChipItem(text = categoryName)
+        }
+
+        // คุณยังสามารถเพิ่ม item เดี่ยวๆ ได้ด้วย `item { ... }`
+        /*
+        item {
+            CategoryChipItem(text = "Special Offer!")
+        }
+        */
+    }
+}
+
+// CustomView แต่ละ Item ได้ที่นี่
+@Composable
+fun CategoryChipItem(text: String, modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .background(
+                color = MaterialTheme.colorScheme.primaryContainer,
+                shape = MaterialTheme.shapes.medium // ทำให้มุมโค้งมน
+            )
+            .padding(horizontal = 16.dp, vertical = 8.dp), // Padding ภายในแต่ละ chip
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onPrimaryContainer
+        )
+    }
+}
+
+
+Credit : 
+- https://developer.android.com
+- https://developer.android.com/develop/ui/compose/lists?hl=th
+- https://developer.android.com/reference/kotlin/androidx/compose/foundation/lazy/grid/package-summary#LazyHorizontalGrid(androidx.compose.foundation.lazy.grid.GridCells,androidx.compose.ui.Modifier,androidx.compose.foundation.lazy.grid.LazyGridState,androidx.compose.foundation.layout.PaddingValues,kotlin.Boolean,androidx.compose.foundation.layout.Arrangement.Horizontal,androidx.compose.foundation.layout.Arrangement.Vertical,androidx.compose.foundation.gestures.FlingBehavior,kotlin.Boolean,kotlin.Function1)
+- https://developer.android.com/develop/ui/compose/components

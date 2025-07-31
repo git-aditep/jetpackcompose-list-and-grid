@@ -1,0 +1,70 @@
+data class StaggeredItem(
+    val id: Int,
+    val height: Dp,
+    val color: Color,
+    val title: String
+)
+
+@Composable
+fun SimpleStaggeredGrid(modifier: Modifier = Modifier) {
+    val items = List(50) { index -> // สร้าง list ตัวอย่าง 50 items
+        StaggeredItem(
+            id = index,
+            height = Random.nextInt(100, 300).dp, // สุ่มความสูงของแต่ละ item
+            color = Color(
+                red = Random.nextFloat(),
+                green = Random.nextFloat(),
+                blue = Random.nextFloat(),
+                alpha = 0.7f
+            ),
+            title = "Item ${index + 1}"
+        )
+    }
+
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Fixed(2), // กำหนดให้มี 2 คอลัมน์
+        // columns = StaggeredGridCells.Adaptive(minSize = 150.dp), // หรือกำหนดขนาดขั้นต่ำของแต่ละ cell
+        // แล้ว Compose จะคำนวณจำนวนคอลัมน์ให้เอง
+        modifier = modifier.fillMaxSize(),
+        contentPadding = PaddingValues(8.dp),
+        verticalItemSpacing = 8.dp,   // ระยะห่างแนวตั้งระหว่าง items
+        horizontalArrangement = Arrangement.spacedBy(8.dp) // ระยะห่างแนวนอนระหว่าง items
+    ) {
+        items(
+            items = items,
+            key = { item -> item.id }
+        ) { item ->
+            StaggeredGridItem(item = item)
+        }
+    }
+}
+
+@Composable
+fun StaggeredGridItem(item: StaggeredItem, modifier: Modifier = Modifier) {
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(item.height), // ใช้ความสูงที่สุ่มมา
+    ) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp)
+        ) {
+            Text(
+                text = "${item.title}\n(${item.height})",
+                style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.Center,
+                color = if (item.color.luminance() > 0.5f) Color.Black else Color.White
+            )
+        }
+    }
+}
+
+
+Credit : 
+- https://developer.android.com
+- https://developer.android.com/develop/ui/compose/lists?hl=th
+- https://developer.android.com/reference/kotlin/androidx/compose/foundation/lazy/grid/package-summary#LazyHorizontalGrid(androidx.compose.foundation.lazy.grid.GridCells,androidx.compose.ui.Modifier,androidx.compose.foundation.lazy.grid.LazyGridState,androidx.compose.foundation.layout.PaddingValues,kotlin.Boolean,androidx.compose.foundation.layout.Arrangement.Horizontal,androidx.compose.foundation.layout.Arrangement.Vertical,androidx.compose.foundation.gestures.FlingBehavior,kotlin.Boolean,kotlin.Function1)
+- https://developer.android.com/develop/ui/compose/components

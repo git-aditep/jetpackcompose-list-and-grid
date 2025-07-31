@@ -1,0 +1,48 @@
+@Composable
+fun SimpleNumberHorizontalGrid(modifier: Modifier = Modifier) {
+          // สร้าง List ของตัวเลข 0 ถึง 19
+    val numbers = (0 until 20).toList()
+
+    LazyHorizontalGrid(
+        rows = GridCells.Fixed(2), // กำหนดให้มี 2 แถว
+        modifier = modifier
+            .height(150.dp) // <<< กำหนดความสูงให้กับ Grid แนวนอน
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)), // พื้นหลังเพื่อให้เห็นขอบเขต
+        contentPadding = PaddingValues(16.dp), // Padding รอบๆ เนื้อหาทั้งหมด
+        horizontalArrangement = Arrangement.spacedBy(8.dp), // ระยะห่างแนวนอนระหว่าง items
+        verticalArrangement = Arrangement.spacedBy(8.dp)     // ระยะห่างแนวตั้งระหว่าง items
+    ) {
+        items(
+            items = numbers,
+            key = { number -> number } // ใช้ตัวเลขเองเป็น key (ในกรณีนี้ไม่ซ้ำกัน)
+        ) { number ->
+            NumberItems(number = number)
+        }
+    }
+}
+
+// CustomView แต่ละ Item ได้ที่นี่
+@Composable
+fun NumberItems(number: Int, modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .width(60.dp) // กำหนดความกว้างของแต่ละ cell
+            .height(60.dp) // กำหนดความสูงของแต่ละ cell
+            .background(MaterialTheme.colorScheme.primaryContainer),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = number.toString(),
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.onPrimaryContainer
+        )
+    }
+}
+
+
+Credit : 
+- https://developer.android.com
+- https://developer.android.com/develop/ui/compose/lists?hl=th
+- https://developer.android.com/reference/kotlin/androidx/compose/foundation/lazy/grid/package-summary#LazyHorizontalGrid(androidx.compose.foundation.lazy.grid.GridCells,androidx.compose.ui.Modifier,androidx.compose.foundation.lazy.grid.LazyGridState,androidx.compose.foundation.layout.PaddingValues,kotlin.Boolean,androidx.compose.foundation.layout.Arrangement.Horizontal,androidx.compose.foundation.layout.Arrangement.Vertical,androidx.compose.foundation.gestures.FlingBehavior,kotlin.Boolean,kotlin.Function1)
+- https://developer.android.com/develop/ui/compose/components

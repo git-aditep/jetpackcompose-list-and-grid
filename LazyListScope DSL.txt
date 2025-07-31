@@ -1,0 +1,26 @@
+@Composable
+fun LazyColumnExample() {
+    LazyColumn {
+        // Add a single item
+        item {
+            Text(text = "First item")
+        }
+
+        // Add 5 items
+        items(5) { index ->
+            Text(text = "Item: $index")
+        }
+
+        // Add another single item
+        item {
+            Text(text = "Last item")
+        }
+    }
+}
+
+
+Credit : 
+- https://developer.android.com
+- https://developer.android.com/develop/ui/compose/lists?hl=th
+- https://developer.android.com/reference/kotlin/androidx/compose/foundation/lazy/grid/package-summary#LazyHorizontalGrid(androidx.compose.foundation.lazy.grid.GridCells,androidx.compose.ui.Modifier,androidx.compose.foundation.lazy.grid.LazyGridState,androidx.compose.foundation.layout.PaddingValues,kotlin.Boolean,androidx.compose.foundation.layout.Arrangement.Horizontal,androidx.compose.foundation.layout.Arrangement.Vertical,androidx.compose.foundation.gestures.FlingBehavior,kotlin.Boolean,kotlin.Function1)
+- https://developer.android.com/develop/ui/compose/components

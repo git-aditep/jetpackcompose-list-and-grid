@@ -1,0 +1,79 @@
+// Data class (ถ้ามีข้อมูลที่ซับซ้อนกว่านี้)
+data class PhotoItem(
+    val id: Int,
+    val color: Color,
+    val title: String
+)
+
+@Composable
+fun SimplePhotoGrid(modifier: PaddingValues) {
+
+    val photoItems = List(100) { index -> // สร้าง list ตัวอย่าง 100 items
+        PhotoItem(
+            id = index,
+            // สุ่มสีเพื่อความหลากหลาย
+            color = Color(
+                red = (index * 20 % 255) / 255f,
+                green = (index * 30 % 255) / 255f,
+                blue = (index * 40 % 255) / 255f
+            ),
+            title = "Image ${index + 1}"
+        )
+    }
+
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(3), // กำหนดให้มี 3 คอลัมน์ขนาดเท่ากัน
+        // columns = GridCells.Adaptive(minSize = 128.dp), // หรือกำหนดขนาดขั้นต่ำของแต่ละ cell
+                    // แล้ว Compose จะคำนวณจำนวนคอลัมน์ให้เอง
+        contentPadding = PaddingValues(8.dp), // Padding รอบ grid ทั้งหมด
+        verticalArrangement = Arrangement.spacedBy(8.dp), // ระยะห่างแนวตั้งระหว่าง cells
+        horizontalArrangement = Arrangement.spacedBy(8.dp) // ระยะห่างแนวนอนระหว่าง cells
+    ) {
+        items(
+            items = photoItems,
+            key = { item -> item.id } // ระบุ key เพื่อ performance ที่ดี
+        ) { photo ->
+            GridItem(modifier = Modifier, photo = photo)
+        }
+
+        // หรือถ้าต้องการ index ด้วย:
+        /*
+        itemsIndexed(photoItems) { index, photo ->
+            GridItem(photo = photo, index = index)
+        }
+        */
+    }
+}
+
+@Composable
+fun GridItem(photo: PhotoItem, modifier: Modifier = Modifier) {
+    CardItems(
+        modifier = modifier.background(photo.color),
+    ) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(4.dp) // เพิ่ม padding ภายใน Card อีกที
+        ) {
+            Text(
+                text = photo.title,
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.Black
+            )
+        }
+    }
+}
+
+// CustomView แต่ละ Item ได้ที่นี่
+@Composable
+fun CardItems(modifier: Modifier, content: @Composable () -> Unit) {
+    Text("TEST")
+}
+
+
+Credit : 
+- https://developer.android.com
+- https://developer.android.com/develop/ui/compose/lists?hl=th
+- https://developer.android.com/reference/kotlin/androidx/compose/foundation/lazy/grid/package-summary#LazyHorizontalGrid(androidx.compose.foundation.lazy.grid.GridCells,androidx.compose.ui.Modifier,androidx.compose.foundation.lazy.grid.LazyGridState,androidx.compose.foundation.layout.PaddingValues,kotlin.Boolean,androidx.compose.foundation.layout.Arrangement.Horizontal,androidx.compose.foundation.layout.Arrangement.Vertical,androidx.compose.foundation.gestures.FlingBehavior,kotlin.Boolean,kotlin.Function1)
+- https://developer.android.com/develop/ui/compose/components
